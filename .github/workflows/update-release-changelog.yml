@@ -45,12 +45,12 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    uses: MetaMask/github-tools/.github/workflows/update-release-changelog.yml@36dc168896c1b496f35fc880ee8a3625b4b837ba
+    uses: MetaMask/github-tools/.github/workflows/update-release-changelog.yml@fix/INFRA-3167-manage-no-diff
     with:
       release-branch: ${{ github.ref_name }}
       repository-url: ${{ github.server_url }}/${{ github.repository }}
       platform: extension
-      github-tools-version: 36dc168896c1b496f35fc880ee8a3625b4b837ba
+      github-tools-version: fix/INFRA-3167-manage-no-diff
       previous-version-ref: null
     secrets:
       github-token: ${{ secrets.PR_TOKEN }}
