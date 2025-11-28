@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [666.666.666]
+### Added
+- Test entry to validate INFRA-3167 fix (no-diff scenario)
+
+
 ## [13.11.0]
 
 ### Added
