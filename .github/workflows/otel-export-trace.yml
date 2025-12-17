@@ -10,8 +10,11 @@ jobs:
     name: OpenTelemetry Export Trace
     runs-on: ubuntu-latest
     steps:
-      - name: Export Workflow Trace
-        uses: inception-health/otel-export-trace-action@latest
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Export workflow traces to Tempo
+        uses: corentinmusard/otel-cicd-action@v2
         with:
           otlpEndpoint: https://tempo-dev.o11y.web3factory.consensys.net/v1/traces
           otlpHeaders: "Authorization=Basic ${{ secrets.TEMPO_AUTH }}"
