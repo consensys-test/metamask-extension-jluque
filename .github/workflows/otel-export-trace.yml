@@ -1,0 +1,19 @@
+name: OpenTelemetry Export Trace
+
+on:
+  workflow_run:
+    workflows: ["Main"]
+    types: [completed]
+
+jobs:
+  otel-export-trace:
+    name: OpenTelemetry Export Trace
+    runs-on: ubuntu-latest
+    steps:
+      - name: Export Workflow Trace
+        uses: inception-health/otel-export-trace-action@latest
+        with:
+          otlpEndpoint: https://tempo-dev.o11y.web3factory.consensys.net/v1/traces
+          otlpHeaders: "Authorization=Basic ${{ secrets.TEMPO_AUTH }}"
+          otelServiceName: "gh-metrics-extension-external-workflow"
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
