@@ -618,20 +618,26 @@ jobs:
       GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
       SPREADSHEET_ID: ${{ secrets.GOOGLE_MERGE_QUEUE_SPREADSHEET_ID }}
       SHEET_NAME: ${{ secrets.GOOGLE_MERGE_QUEUE_SHEET_NAME }}
-  otel-export-private:
+  otel-export:
+    name: Export OTEL Traces
     runs-on: ubuntu-latest
-    needs: [identify-builds, prep-deps, lint-workflows, test-lint, repository-health-checks, test-storybook, validate-lavamoat-policies, build-dist-browserify, build-dist-mv2-browserify, build-beta-browserify, build-beta-mv2-browserify, build-flask-browserify, build-flask-mv2-browserify, build-test-browserify, build-test-mv2-browserify, build-test-flask-browserify, build-test-flask-mv2-browserify, build-test-webpack, build-test-mv2-webpack, run-tests, build-storybook, build-ts-migration-dashboard, build-source-map-explorer, build-lavamoat-viz, publish-prerelease, publish-release, all-jobs-completed, all-jobs-pass, log-merge-group-failure]
+    if: always() # Run even if previous jobs fail
+    needs: [identify-builds]
     permissions:
-      contents: read # Required. To access the private repository
-      actions: read # Required. To read workflow runs
-      pull-requests: read # Optional. To read PR labels
-      checks: read # Optional. To read run annotations
+      contents: read
+      actions: read
+      pull-requests: read
+      checks: read
     steps:
-      - uses: actions/checkout@v4
-      - name: Export workflow
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Export workflow traces to Tempo
         uses: corentinmusard/otel-cicd-action@v2
         with:
           otlpEndpoint: https://tempo-dev.o11y.web3factory.consensys.net/v1/traces
-          otlpHeaders: "Authorization=Basic ${{secrets.TEMPO_P}}"
+          otlpHeaders: "Authorization=Basic ${{ secrets.TEMPO_AUTH }}"
+          otelServiceName: "gh-metrics-extension"
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          runId: ${{ github.event.workflow_run.id }}
+
+
