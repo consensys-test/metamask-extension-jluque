@@ -20,3 +20,4 @@ jobs:
           otlpHeaders: "Authorization=Basic ${{ secrets.TEMPO_AUTH }}"
           otelServiceName: "gh-metrics-extension-external-workflow"
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          runId: ${{ github.event.workflow_run.id }}
