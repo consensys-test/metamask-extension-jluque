@@ -18,6 +18,6 @@ jobs:
         with:
           otlpEndpoint: https://tempo-dev.o11y.web3factory.consensys.net/v1/traces
           otlpHeaders: "Authorization=Basic ${{ secrets.TEMPO_AUTH }}"
-          otelServiceName: "gh-metrics-extension-external-workflow"
+          otelServiceName: "gh-metrics-extension"
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           runId: ${{ github.event.workflow_run.id }}
